@@ -1,0 +1,9 @@
+*.log
+nohup.out
+*.txt
+*.out
+*.dat
+*.png
+test*.pl
+*test.pl
+
