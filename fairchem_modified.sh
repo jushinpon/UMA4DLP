@@ -1,18 +1,14 @@
 #!/bin/sh
 #SBATCH --output=fairchem.log
+#SBATCH --error=fairchem.err
 #SBATCH --job-name=fairchem_cpu
 #SBATCH --nodes=1
 ##SBATCH --cpus-per-task=1
 #SBATCH --partition=All
 ##SBATCH --ntasks-per-node=12
 ##SBATCH --exclude=node23
-
-
 #SBATCH --ntasks=1
-
 #SBATCH --hint=nomultithread
-
-##SBATCH --error=fairchem.err
 
 echo "==================== Slurm job info ===================="
 echo "Job ID               : $SLURM_JOB_ID"
@@ -101,8 +97,8 @@ print("CPU count (torch)   :", torch.get_num_threads())
 EOF
 echo "======================================================="
 
-#python gptfakeQE.py INPUT.data opt1_steps opt1_fmax opt2_steps opt2_fmax npt_steps  do_supercell(0/1)  temp(K) press(GPa) timestep(fs)  cx cy cz model task
-#python gptfakeQE.py 20260105_093642_optimized_out-fcc-Al04Co33Cr22Fe15Mo01Nb01Ni25Ta01Ti02W01_out.data 1 0.2 1 0.1 1 1 400.0 1.0 2.0 0 0 0
+#python gptfakeQE.py INPUT.data opt1_steps opt1_fmax opt2_steps opt2_fmax npt_steps do_supercell(0/1)  temp(K) press(GPa) timestep(fs)  cx cy cz model task
+#python gptfakeQE.py 20260105_093642_optimized_out-fcc-Al04Co33Cr22Fe15Mo01Nb01Ni25Ta01Ti02W01_out.data 1 0.2 1 0.1 1 1 400.0 1.0 2.0 0 0 0 1 1 1 uma-s-1p1 omat
 #see usage in fairchem.py
 rm -f *.sout
 rm -f *.in
