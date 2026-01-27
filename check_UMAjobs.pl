@@ -17,7 +17,7 @@ my $currentPath = getcwd();# dir for all scripts
 ########## source folder you need to assign
 #my $source_folder = "$currentPath/shear_label/*/labelled";#for vc-relax
 #my $source_folder = "/home/jsp1/AlP/QE_from_MatCld/QEall_set";#for vc-relax
-my $source_folder = "/home/jsp1/HEA_10elements/categorized_UMA";#for vc-relax
+my $source_folder = "/home/jsp/H2_storage_oc20/categorized_UMA";#for vc-relax
 #-maxdepth 3 -mindepth 3
 
 #my @all_UMA_data = `find $source_folder  -type f -name "*.data"|grep -v data_files`;#keep element info`;

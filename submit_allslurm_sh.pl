@@ -13,7 +13,7 @@ use POSIX;
 use Parallel::ForkManager;
 use List::Util qw/shuffle/;
 
-my $filefold = "/home/jsp1/HEA_10elements/categorized_UMA";
+my $filefold = "/home/jsp/H2_storage_oc20/categorized_UMA";
 
 my $currentPath = getcwd();# dir for all scripts
 

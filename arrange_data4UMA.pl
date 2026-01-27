@@ -8,9 +8,9 @@ use strict;
 use Cwd;
 
 my $currentPath = getcwd();
-my $data_main_folder = "/home/jsp1/HEA_10elements/categorized_data4UMA";#folder where you place all your QE input files (abs path)
+my $data_main_folder = "/home/jsp/H2_storage_oc20/categorized_data4UMA";#folder where you place all your QE input files (abs path)
 #my $QE_folder = "QE_trimmed4md";#folder where you place all your QE input files
-my $out_folder = "/home/jsp1/HEA_10elements/categorized_UMA";#folder having all subfolders (the same prefixes as QE input file) with the QE input
+my $out_folder = "/home/jsp/H2_storage_oc20/categorized_UMA";#folder having all subfolders (the same prefixes as QE input file) with the QE input
 `rm -rf $out_folder`;
 `mkdir $out_folder`;
 ## set Temperature and press 
@@ -19,7 +19,7 @@ my @press = (0);
 
 #####YOU NEED TO SET THE FOLLOWING PARAMETERS FOR YOUROWN CASES#####
 my $model = "uma-s-1p1"; #uma-s-1p1 uma-s-2p0 uma-m-1p1 uma-m-2p0
-my $task = "omat";  #omat omdyn
+my $task = "oc20";  #omat omdyn
 
 my $python_path = `readlink -f ./gptfakeQE.py 2>/dev/null`;
 chomp $python_path;
@@ -29,9 +29,9 @@ my $opt1_steps = 500;
 my $opt1_fmax = 0.1;
 my $opt2_steps = 500;
 my $opt2_fmax = 0.05;
-my $npt_steps = 500;#not larger than 999
+my $npt_steps = 1000;#not larger than 999
 my $do_supercell = 1; # 0 / 1
-my $timestep = 2.0; # fs, for bulk UMA simulations without covalent bonds, 2.0 fs is recommended, For simulations with molecules or covalent bonds, 1.5 fs is recommended.
+my $timestep = 1.2; # fs, for bulk UMA simulations without covalent bonds, 2.0 fs is recommended, For simulations with molecules or covalent bonds, 1.5 fs is recommended.
 my ($bulk_cx, $bulk_cy, $bulk_cz) = (1, 1, 1);
  
 #You must assign proper surface_cx, surface_cy, surface_cz for surface systems, 0 for not change lengths along that direction.
@@ -157,6 +157,7 @@ my $here_doc =<<"END_MESSAGE";
 ##SBATCH --exclude=node23
 #SBATCH --ntasks=1
 #SBATCH --hint=nomultithread
+#SBATCH --reservation=script_test
 
 start_time=\$(date +%s)
 
@@ -248,6 +249,8 @@ rm -f *.sout
 rm -f *.in
 
 #python -u gptfakeQE.py 20260105_093642_optimized_out-fcc-Al04Co33Cr22Fe15Mo01Nb01Ni25Ta01Ti02W01_out.data 5 0.2 5 0.1 20 1 300.0 0.0 1.0 1 1 1 uma-s-1p1 omat
+export CUDA_VISIBLE_DEVICES=-1
+
 $str
 
 perl /opt/qe_perl/QEout_analysis.pl
