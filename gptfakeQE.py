@@ -720,6 +720,7 @@ def main() -> None:
     append_fake_qe_properties(fake_sout, final_atoms, iteration_num=1)
 
     if npt_steps == 0:
+        append_fake_qe_structure(fake_sout, final_atoms)
         finalize_fake_qe_output(fake_sout)
         print("Done (SCF mode).")
         print(f"  fake.in       : {fake_in}")
