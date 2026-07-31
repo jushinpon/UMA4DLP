@@ -1,20 +1,60 @@
+# UMA4DLP
 
-# 1. Load the Model Checkpoint (e.g., Medium)
-predictor = pretrained_mlip.get_predict_unit("uma-m-1p1", device="cuda")
+Unified Materials Archive for Deep Learning Potential — 用於 DLP 訓練的 unified materials 數據收集工具。
 
+本工具集用於從 Multiple sources（FairChem、GPT-fake DFT 等）收集訓練數據，並提交至 Slurm 叢集進行 DFT 標籤計算。
 
-Model Name,Description,Parameters (Active / Total),Use Case
-uma-s-1p1,"Small (Default). The fastest model, suitable for most simulations while maintaining state-of-the-art accuracy.",~6.6M / 150M,"High-throughput screening, long MD trajectories."
-uma-m-1p1,"Medium. Best-in-class accuracy across metrics, but slower and more memory-intensive than the small model.",~50M / 1.4B,High-precision single-point calculations or critical relaxations.
-uma-l,Large,(Coming Soon),Not yet widely available for standard usage.
+---
 
-# 2. Attach the specific Task (e.g., Inorganic Materials)
+## 程式功能說明
 
-Task Name,Domain / Application,Example Systems
-oc20,Catalysis,"Adsorbates on surfaces (e.g., CO on Cu)."
-omat,Inorganic Materials,"Bulk crystals, alloys, semiconductors."
-omol,Molecules,"Small organic molecules, proteins, drugs."
-odac,MOFs,"Metal-Organic Frameworks, carbon capture."
-omc,Molecular Crystals,"Organic electronics, pharmaceutical crystals."
+| 腳本 | 功能 |
+|---|---|
+| `arrange_data4UMA.pl` | 整理 UMA 數據為可用格式 |
+| `check_UMAjobs.pl` | 檢查所有 UMA DFT 工作狀態 |
+| `fairchem_modified.sh` | FairChem 數據修改腳本 |
+| `gptfakeQE.py` | 使用 GPT 生成假 QE 輸出 |
+| `submit_allslurm_sh.pl` | 批量提交 Slurm 工作 |
+| `submit_sh4allDead.pl` | 重新提交 Dead 狀態的工作 |
 
-atoms.calc = FAIRChemCalculator(predictor, task_name="omat")
+---
+
+## 依賴環境
+
+| 項目 | 需求 |
+|---|---|
+| 語言 | Perl 5.x, Python 3.x |
+| DFT | Quantum ESPRESSO 或 FairChem |
+| 排程 | Slurm |
+
+---
+
+## 使用方法
+
+```bash
+# 整理數據
+perl arrange_data4UMA.pl
+
+# 檢查工作狀態
+perl check_UMAjobs.pl
+
+# 批量提交
+perl submit_allslurm_sh.pl
+
+# 重新提交失敗的工作
+perl submit_sh4allDead.pl
+```
+
+---
+
+## AI Agent 操控指南
+
+```
+任務: 從 UMA 收集並標籤數據
+步驟:
+1. perl arrange_data4UMA.pl 整理數據
+2. perl submit_allslurm_sh.pl 批量提交
+3. perl check_UMAjobs.pl 監控進度
+4. perl submit_sh4allDead.pl 重新提交失敗
+5. 重複 3-4 直到所有 Done
+```
